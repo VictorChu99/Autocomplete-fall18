@@ -1,3 +1,4 @@
+
 /*************************************************************************
  * @author Matthew Drabick, adapted by Austin Lu for COMPSCI 201 Autocomplete,
  * 
@@ -241,7 +242,7 @@ public class AutocompleteGUI extends JFrame {
 					if (suggestions.getSelectedIndex() == 0) {
 						suggestions.clearSelection();
 						searchText.requestFocusInWindow();
-						//int pos = searchText.getText().length();
+						// int pos = searchText.getText().length();
 						// searchText.select(pos, pos);
 						searchText.setSelectionEnd(0);
 
@@ -322,8 +323,8 @@ public class AutocompleteGUI extends JFrame {
 		}
 
 		/**
-		 * Makes a call to the implementation of Autocomplete to get suggestions
-		 * for the currently entered text.
+		 * Makes a call to the implementation of Autocomplete to get suggestions for the
+		 * currently entered text.
 		 * 
 		 * @param text
 		 *            string to search for
@@ -335,12 +336,12 @@ public class AutocompleteGUI extends JFrame {
 				suggestions.setVisible(false);
 			} else {
 				int textLen = text.length();
-				//Queue<String> resultQ = new LinkedList<>();
+				// Queue<String> resultQ = new LinkedList<>();
 				Queue<Double> ds = new LinkedList<>();
 				Queue<Term> resultQ = new LinkedList<>();
 				for (Term term : auto.topMatches(text.toLowerCase(), k)) {
 					resultQ.add(term);
-					//ds.add(auto.weightOf(term));
+					// ds.add(auto.weightOf(term));
 				}
 				if (!resultQ.isEmpty()) {
 					results = new String[resultQ.size()];
@@ -348,12 +349,12 @@ public class AutocompleteGUI extends JFrame {
 						Term next = resultQ.remove();
 						results[i] = next.getWord();
 						/*
-						 * Modified to include the weights of each term and a
-						 * delimiter "|" to ensure that the search does not
-						 * include the weight.
+						 * Modified to include the weights of each term and a delimiter "|" to ensure
+						 * that the search does not include the weight.
 						 */
 						results[i] = "<html>" + results[i].substring(0, textLen) + "<b>" + results[i].substring(textLen)
-								+ "</b>" + "|<span style=\"color:#C0C0C0;\">" + String.format("%.0f",next.getWeight()) + "</span></html>";
+								+ "</b>" + "|<span style=\"color:#C0C0C0;\">" + String.format("%.0f", next.getWeight())
+								+ "</span></html>";
 					}
 					suggestions.setListData(results);
 					suggestions.setVisible(true);
@@ -373,7 +374,7 @@ public class AutocompleteGUI extends JFrame {
 				String selection = (String) suggestions.getSelectedValue();
 				int split = selection.indexOf("|");
 				// Exclude weight from search string
-				selection = selection.substring(0, split); 
+				selection = selection.substring(0, split);
 				selection = selection.replaceAll("\\<.*?>", "");
 				return selection;
 			} else
@@ -387,8 +388,8 @@ public class AutocompleteGUI extends JFrame {
 
 	/**
 	 * Creates a URI from the user-defined string and searches the web with the
-	 * selected search engine Opens the default web browser (or a new tab if it
-	 * is already open)
+	 * selected search engine Opens the default web browser (or a new tab if it is
+	 * already open)
 	 * 
 	 * @param s
 	 *            string to search online for

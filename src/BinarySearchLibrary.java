@@ -32,14 +32,39 @@ public class BinarySearchLibrary {
     	int firstIndex(List<T> list, 
 	               	T target, Comparator<T> comp) {
 		
-		int low = -1;
+		
+		int low = -1;//set to -1 since the interval contains 0 to 99 inclusive
+					//we are not including -1 with this
 		int high = list.size()-1;
 		// (low,high] contains target
 		// TODO: complete method
 		
+		if(list.size()== 0) return -1;
+		while(low + 1 != high)
+		{
+			T mid = list.get((high+low)/2);
+			
+			int y = comp.compare(mid, target);
+			
+			if(y < 0)
+			{
+				low =  (high + low)/2 ;
+			}
+			else if(y >= 0)
+			{
+				high = (high + low)/2 ;
+			}
+			
+			
+		}
+		
+		if(comp.compare(list.get(high),target) == 0)//if we found target, then we return high
+			return high;
+		
 		return -1;
 	}
 
+	
 	/**
 	 * Uses binary search to find the index of the last object in parameter
 	 * list -- the first object o such that comp.compare(o,target) == 0.
@@ -59,8 +84,26 @@ public class BinarySearchLibrary {
 		int low = 0;
 		int high = list.size();
 		
-		// target in [low,high)
-		// TODO: complete method
+		if(list.size()== 0) return -1;
+		while(high - 1 != low)
+		{
+			T mid = list.get((high+low)/2);
+			
+			int y = comp.compare(mid, target);
+			
+			if(y <= 0)
+			{
+				low =  (high + low)/2 ;
+			}
+			else if(y > 0)
+			{
+				high = (high + low)/2 ;
+			}
+			
+		}
+		if(comp.compare(list.get(low),target) == 0)
+			return low;
+		
 		return -1;
 	}
 	

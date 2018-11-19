@@ -29,8 +29,16 @@ public class Term implements Comparable<Term> {
 	public Term(String word, double weight) {
 		// TODO: Complete Term constructor
 		
+		if(word.equals(null))//.equals bc string
+			throw new IllegalArgumentException("word is null" + word);
 		myWord = word;
+		
+		
+		 
+		if(weight < 0)
+			throw new IllegalArgumentException("negative weight "+weight);
 		myWeight = weight;
+		
 	}
 	
 	/**
@@ -87,7 +95,36 @@ public class Term implements Comparable<Term> {
 		public int compare(Term v, Term w) {
 			// TODO: Implement compare
 			
-			return 0;
+			//first, we need to figure out our size 
+			//for the for loop to iterate
+			
+			
+			//we want to set to the shorter one if the words differ
+			
+			int compareSize = myPrefixSize; 
+			
+			int vlength = v.getWord().length();
+			int wlength = w.getWord().length();
+			
+			int min = Math.min(wlength, vlength);//we are getting the minimum out of these three
+			
+			compareSize = Math.min(min, compareSize);//same reasoning as before.
+			
+			for(int i = 0; i < compareSize; i++)
+			{
+				if(v.getWord().charAt(i) < w.getWord().charAt(i)) return -1;
+				if(v.getWord().charAt(i) > w.getWord().charAt(i)) return 1;
+			}
+			
+			
+			//if our characters are equal, compare size of vlength and wlength
+			if(vlength >= myPrefixSize && wlength >= myPrefixSize)
+			{
+				return 0;
+			}
+			
+			if(vlength > wlength) return 1;
+			return -1;
 		}
 	
 	}
@@ -102,6 +139,11 @@ public class Term implements Comparable<Term> {
 		public int compare(Term v, Term w) {
 			// TODO: implement compare
 			
+			if(v.getWeight() < w.getWeight()) return 1;
+			if(v.getWeight() == w.getWeight()) return 0;
+			if(v.getWeight() > w.getWeight())return -1;
+ 			
+			
 			return 0;
 		}
 	}
@@ -115,6 +157,10 @@ public class Term implements Comparable<Term> {
 	public static class WeightOrder implements Comparator<Term> {
 		public int compare(Term v, Term w) {
 			// TODO: implement compare
+			if(v.getWeight() < w.getWeight()) return -1;
+			if(v.getWeight() == w.getWeight()) return 0;
+			if(v.getWeight() > w.getWeight())return 1;
+ 			
 			
 			return 0;
 		}
