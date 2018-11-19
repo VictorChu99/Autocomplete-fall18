@@ -118,7 +118,7 @@ public class Term implements Comparable<Term> {
 			
 			
 			//if our characters are equal, compare size of vlength and wlength
-			if(vlength >= myPrefixSize && wlength >= myPrefixSize)
+			if(vlength > myPrefixSize && wlength > myPrefixSize)
 			{
 				return 0;
 			}
