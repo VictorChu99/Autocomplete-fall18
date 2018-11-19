@@ -108,9 +108,9 @@ public class Term implements Comparable<Term> {
 			
 			int min = Math.min(wlength, vlength);//we are getting the minimum out of these three
 			
-			compareSize = Math.min(min, compareSize);//same reasoning as before.
+			int loop = Math.min(min, compareSize);//same reasoning as before.
 			
-			for(int i = 0; i < compareSize; i++)
+			for(int i = 0; i < loop; i++)
 			{
 				if(v.getWord().charAt(i) < w.getWord().charAt(i)) return -1;
 				if(v.getWord().charAt(i) > w.getWord().charAt(i)) return 1;
@@ -122,8 +122,10 @@ public class Term implements Comparable<Term> {
 			{
 				return 0;
 			}
+			if(vlength == wlength) return 0;
 			
 			if(vlength > wlength) return 1;
+			//don't need to check other case
 			return -1;
 		}
 	
