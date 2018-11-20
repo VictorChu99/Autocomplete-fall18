@@ -23,24 +23,32 @@ and then make any conclusions about how the # matches
 effects the runtime. 
 
 search	size	#match	binary	brute
-	456976	10000	0.2922	0.0240
-a	17576	10000	0.0060	0.0079
-b	17576	10000	0.0049	0.0068
-c	17576	10000	0.0064	0.0072
-x	17576	10000	0.0052	0.0071
-y	17576	10000	0.0042	0.0070
-z	17576	10000	0.0042	0.0089
-aa	676	10000	0.0002	0.0038
-az	676	10000	0.0002	0.0064
-za	676	10000	0.0002	0.0039
-zz	676	10000	0.0001	0.0038
+		456976	10000	0.2922	0.0240
+a		17576	10000	0.0060	0.0079
+b		17576	10000	0.0049	0.0068
+c		17576	10000	0.0064	0.0072
+x		17576	10000	0.0052	0.0071
+y		17576	10000	0.0042	0.0070
+z		17576	10000	0.0042	0.0089
+aa		676		10000	0.0002	0.0038
+az		676		10000	0.0002	0.0064
+za		676		10000	0.0002	0.0039
+zz		676		10000	0.0001	0.0038
 
 When we increase the number of matches, we are going to return more matches. Since
 topMatches is topMatchs(prefix, k), by increasing k, we have a larger of matches.
 By increasing the number of matches, on one hand, building our priority queue, 
 we are adding more values to it, which is a O(logN) operation. In addition to this,
 we later transfer our prioity queue values to an arrayList. A larger size is going to 
-take longer to copy our priority queue values to an arraylist. 
+take longer to copy our priority queue values to an arraylist. This has a big impact
+on BruteAutoComplete, but not as much of an effect on BinaryAutoComplete because it is faster. The key thing
+Brute takes longer because it takes longer to sort. When you do BinaryAutocomplete,
+you are only sorting so many matches, because you cut some of the terms out. N stays the same,and you aren't
+changing how many terms there are. M stays the same, since you still have matching terms with the prefix.
+k differs because you are increasing the size of your priority queue. PriorityQueue takes longer,
+because you have an O(logk) operation. I used Priority queues in both my binary and bruteforce
+topmatches. 
+
 
 
 (3) Copy/paste the code from BruteAutocomplete.topMatches below. 
@@ -62,16 +70,12 @@ for (Term t : myTerms) {
 				pq.add(t);
 			}
 }
-int numResults = Math.min(k, pq.size());
-LinkedList<Term> ret = new LinkedList<>();
-for (int i = 0; i < numResults; i++) {
-	ret.addFirst(pq.remove());
-}
-return ret;
 
-Looking through all the terms is N. Then we perform some priority queue operations
-These operations are all O(log k). Therefore we run through all the terms N times,
-performing logK work, thus the first loop is just O(Nlogk)
+We look through each term, and cycle through it which takes O(N). However,
+within our loop, we execute operations related to the priority queue,
+M times, which perform an logK operations, thus being O(MlogK). Therefore, this entire
+for loop is O(N + Mlogk).
+
 
 
 (4) Explain why the last for loop in BruteAutocomplete.topMatches 
@@ -81,9 +85,12 @@ the top k heaviest matches -- rather than
 using Term.ReverseWeightOrder.
 
 Uses a LinkedList since adding is an O(1) operation, unlike an ArrayList 
-which is O(N) operation to add. PriorityQueue uses Term.WeightOrder instead of
+which is O(K) operation to add. PriorityQueue uses Term.WeightOrder instead of
 ReverseWeightOrder since we want to be removing elements by their min, thus 
-leaving us only with the heaviest.
+leaving us only with the heaviest. Since we use WeightOrder and LinkedLists,
+when we add elements, they go to the beginning of the LinkedList. When we remove elements,
+we are removing the lightest ones in the back, giving us a descending order. 
+
 
 
 (5) Explain what the runtime of the 
@@ -94,7 +101,7 @@ and explaining your answer in terms of N, M, and k.
 	if (prefix == null) {
 			throw new NullPointerException();
 		}
-		ArrayList<Term> list = new ArrayList<>();
+		LinkedList<Term> list = new LinkedList<>();
 		
 
 		int first = firstIndexOf(myTerms, new Term(prefix, 0), new Term.PrefixOrder(prefix.length()));
@@ -125,6 +132,11 @@ and explaining your answer in terms of N, M, and k.
 O(logN) since we call first and last index. Then,
 we get to the for loop, which runs in O(M) because we are first,
 going from first to last. Inside the loop, we perform priority queue
-operations which all run in logk time. Therefore, the total runtime is
-O(Mlogk) + O(logN). 
+operations which all run in logk time. In the last part
+of while(pq.size() > 0, this runs k times, doing a 
+logk operations. Therefore, the total runtime is
+O(Mlogk + logN + klogk). 
+
+
+
 

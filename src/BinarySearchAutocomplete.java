@@ -104,35 +104,39 @@ public class BinarySearchAutocomplete implements Autocompletor {
 	 *             NullPointerException if prefix is null
 	 */
 	@Override
+	//Used a priority queue instead
 	public List<Term> topMatches(String prefix, int k) {
-		if (prefix == null) {
-			throw new NullPointerException();
-		}
-		ArrayList<Term> list = new ArrayList<>();
+		if (prefix == null) throw new NullPointerException();
+		//first, we are going to just check for a couple exceptions
+		if(k < 0) throw new IllegalArgumentException("Can't have a negative k");
 		
+		ArrayList<Term> list = new ArrayList<>();//create our return list
 
+		
+		//we need to calculate our first and last index so we don't have to sort through all the 
+		//N elements
 		int first = firstIndexOf(myTerms, new Term(prefix, 0), new Term.PrefixOrder(prefix.length()));
 		if(first < 0) return list;
 		
 		int last = lastIndexOf(myTerms, new Term(prefix, 0), new Term.PrefixOrder(prefix.length()));
 		
 		
-		PriorityQueue<Term> pq = new PriorityQueue<Term>(new Term.WeightOrder());
+		PriorityQueue<Term> pq = new PriorityQueue<Term>(new Term.WeightOrder());//create priority queue based on WeightOrder comparator
 		
 		//we don't need to check if our term starts with prefix since we asusme myTerms is sorted
 		for (int i = first; i <= last; i++) {
 			if(myTerms[i].getWord().startsWith(prefix)) {
-				pq.add(myTerms[i]);
-				if (pq.size() > k) 
+				pq.add(myTerms[i]);//add the element tot he priority queue
+				if (pq.size() > k) //if priority queue is too large, remove the minimum elements
 					pq.remove();
 		}	
 			
 		}
 		
-		while(pq.size()>0)
+		while(pq.size()>0)//we need to convert our priority queue values into an arraylist
 			list.add(pq.remove());
 		
-		Collections.sort(list,new Term.ReverseWeightOrder());
+		Collections.sort(list,new Term.ReverseWeightOrder());//sort our arraylist by reverseWeight Order now
 		
 		return list;
 	}

@@ -39,13 +39,15 @@ public class BinarySearchLibrary {
 		// (low,high] contains target
 		// TODO: complete method
 		
-		if(list.size()== 0) return -1;
-		while(low + 1 != high)
+		if(list.size()== 0) return -1;//if we have no elements
+		while(low + 1 != high)//loop invariant
 		{
-			T mid = list.get((high+low)/2);
+			T mid = list.get((high+low)/2);//get the midpoint
 			
-			int y = comp.compare(mid, target);
+			int y = comp.compare(mid, target);//compare to the target
 			
+			
+			//adjust our low/high based on whether mid is too high or too low
 			if(y < 0)
 			{
 				low =  (high + low)/2 ;
@@ -61,6 +63,7 @@ public class BinarySearchLibrary {
 		if(comp.compare(list.get(high),target) == 0)//if we found target, then we return high
 			return high;
 		
+		//otherwise, the target is not in the list
 		return -1;
 	}
 
@@ -85,12 +88,16 @@ public class BinarySearchLibrary {
 		int high = list.size();
 		
 		if(list.size()== 0) return -1;
+		
+		//similar reasoning as before with firstIndex
 		while(high - 1 != low)
 		{
-			T mid = list.get((high+low)/2);
+			T mid = list.get((high+low)/2);//get midpoint
 			
-			int y = comp.compare(mid, target);
+			int y = comp.compare(mid, target);//compare mid to the target
 			
+			
+			//adjust high and low based on mid vs target
 			if(y <= 0)
 			{
 				low =  (high + low)/2 ;
@@ -101,10 +108,10 @@ public class BinarySearchLibrary {
 			}
 			
 		}
-		if(comp.compare(list.get(low),target) == 0)
+		if(comp.compare(list.get(low),target) == 0) //return low once we've adjusted enough times
 			return low;
 		
-		return -1;
+		return -1;//return -1 if list doesn't contain the target
 	}
 	
 }
