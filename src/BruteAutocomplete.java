@@ -51,7 +51,7 @@ public class BruteAutocomplete implements Autocompletor {
 		
 		// maintain pq of size k
 		PriorityQueue<Term> pq = new PriorityQueue<Term>(10, new Term.WeightOrder());//priority queue way
-		for (Term t : myTerms) {
+		for (Term t : myTerms) {//look through all N elements
 			if (!t.getWord().startsWith(prefix))
 				continue;
 			if (pq.size() < k) {

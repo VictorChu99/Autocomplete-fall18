@@ -123,9 +123,8 @@ and explaining your answer in terms of N, M, and k.
 		}
 		
 		while(pq.size()>0)
-			list.add(pq.remove());
+			list.addFirst(pq.remove());
 		
-		Collections.sort(list,new Term.ReverseWeightOrder());
 		
 		return list;
 

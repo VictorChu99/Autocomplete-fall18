@@ -110,7 +110,7 @@ public class BinarySearchAutocomplete implements Autocompletor {
 		//first, we are going to just check for a couple exceptions
 		if(k < 0) throw new IllegalArgumentException("Can't have a negative k");
 		
-		ArrayList<Term> list = new ArrayList<>();//create our return list
+		LinkedList<Term> list = new LinkedList<>();//create our return list
 
 		
 		//we need to calculate our first and last index so we don't have to sort through all the 
@@ -134,7 +134,7 @@ public class BinarySearchAutocomplete implements Autocompletor {
 		}
 		
 		while(pq.size()>0)//we need to convert our priority queue values into an arraylist
-			list.add(pq.remove());
+			list.addFirst(pq.remove());
 		
 		Collections.sort(list,new Term.ReverseWeightOrder());//sort our arraylist by reverseWeight Order now
 		
