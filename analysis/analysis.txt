@@ -36,18 +36,20 @@ za		676		10000	0.0002	0.0039
 zz		676		10000	0.0001	0.0038
 
 When we increase the number of matches, we are going to return more matches. Since
-topMatches is topMatchs(prefix, k), by increasing k, we have a larger of matches.
+topMatches is topMatchs(prefix, k), by increasing k, we have a larger number of matches.
 By increasing the number of matches, on one hand, building our priority queue, 
-we are adding more values to it, which is a O(logN) operation. In addition to this,
-we later transfer our prioity queue values to an arrayList. A larger size is going to 
+we are adding more values to it, which is an O(logN) operation. In addition to this,
+we later transfer our priority queue values to an arrayList. A larger size is going to 
 take longer to copy our priority queue values to an arraylist. This has a big impact
-on BruteAutoComplete, but not as much of an effect on BinaryAutoComplete because it is faster. The key thing
-Brute takes longer because it takes longer to sort. When you do BinaryAutocomplete,
-you are only sorting so many matches, because you cut some of the terms out. N stays the same,and you aren't
+on BruteAutoComplete, but not as much of an effect on BinaryAutoComplete because it is faster. The key thing for 
+Brute taking longer because it takes longer to sort. When you do BinaryAutocomplete,
+you are only sorting so many matches, because you cut some of the terms out.Regarding our big oh
+with changing matches, N stays the same,and you aren't
 changing how many terms there are. M stays the same, since you still have matching terms with the prefix.
-k differs because you are increasing the size of your priority queue. PriorityQueue takes longer,
-because you have an O(logk) operation. I used Priority queues in both my binary and bruteforce
-topmatches. 
+k differs because you are increasing the size of your priority queue. Brute Force takes longer,
+because you have an O(logk) operation everytime you add to a priority 
+queue. I used Priority queues in both my binary and bruteforce
+topmatches. More matches result in a longer runtime.
 
 
 
@@ -85,7 +87,7 @@ the top k heaviest matches -- rather than
 using Term.ReverseWeightOrder.
 
 Uses a LinkedList since adding is an O(1) operation, unlike an ArrayList 
-which is O(K) operation to add. PriorityQueue uses Term.WeightOrder instead of
+which is an O(N) operation to add first since we shift elements. PriorityQueue uses Term.WeightOrder instead of
 ReverseWeightOrder since we want to be removing elements by their min, thus 
 leaving us only with the heaviest. Since we use WeightOrder and LinkedLists,
 when we add elements, they go to the beginning of the LinkedList. When we remove elements,
@@ -129,12 +131,12 @@ and explaining your answer in terms of N, M, and k.
 		return list;
 
 O(logN) since we call first and last index. Then,
-we get to the for loop, which runs in O(M) because we are first,
-going from first to last. Inside the loop, we perform priority queue
+we get to the for loop, which runs in O(M) because we are
+going from first to last. Within this loop, we perform priority queue
 operations which all run in logk time. In the last part
 of while(pq.size() > 0, this runs k times, doing a 
-logk operations. Therefore, the total runtime is
-O(Mlogk + logN + klogk). 
+logk operations. This second loop is klogk. Therefore, the total runtime is
+O(logN + Mlogk + klogk). 
 
 
 
